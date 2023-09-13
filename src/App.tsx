@@ -24,43 +24,43 @@ export default function App() {
     }, 0);
   }, [stats]);
 
-  return (
-    <main className="chat">
-      <header>
-        <h1>Convex Chat</h1>
-        <p>
-          Connected as <strong>{NAME}</strong>
-        </p>
-      </header>
-      {stats?.map((stats) => (
-        <article
-          key={stats._id}
-          className={stats.author === NAME ? "message-mine" : ""}
-        >
-          <div>{stats.author}</div>
+  return (<></>
+    // <main className="chat">
+    //   <header>
+    //     <h1>Convex Chat</h1>
+    //     <p>
+    //       Connected as <strong>{NAME}</strong>
+    //     </p>
+    //   </header>
+    //   {stats?.map((stats) => (
+    //     <article
+    //       key={stats._id}
+    //       className={stats.author === NAME ? "message-mine" : ""}
+    //     >
+    //       <div>{stats.author}</div>
 
-          <p>{stats.body}</p>
-        </article>
-      ))}
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          await sendMessage({ body: newMessageText, author: NAME });
-          setNewMessageText("");
-        }}
-      >
-        <input
-          value={newMessageText}
-          onChange={async (e) => {
-            const text = e.target.value;
-            setNewMessageText(text);
-          }}
-          placeholder="Write a message…"
-        />
-        <button type="submit" disabled={!newMessageText}>
-          Send
-        </button>
-      </form>
-    </main>
+    //       <p>{stats.body}</p>
+    //     </article>
+    //   ))}
+    //   <form
+    //     onSubmit={async (e) => {
+    //       e.preventDefault();
+    //       await sendMessage({ body: newMessageText, author: NAME });
+    //       setNewMessageText("");
+    //     }}
+    //   >
+    //     <input
+    //       value={newMessageText}
+    //       onChange={async (e) => {
+    //         const text = e.target.value;
+    //         setNewMessageText(text);
+    //       }}
+    //       placeholder="Write a message…"
+    //     />
+    //     <button type="submit" disabled={!newMessageText}>
+    //       Send
+    //     </button>
+    //   </form>
+    // </main>
   );
 }
