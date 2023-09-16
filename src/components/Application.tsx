@@ -48,7 +48,7 @@ const Draw = (e:any) => {
   // Set the line cap to round
   ctx.lineCap = "round";
   ctx.stroke(); // Draw it!
-};
+}; 
 const [mouseData, setMouseData] = useState({ x: 0, y: 0 });
 
 
