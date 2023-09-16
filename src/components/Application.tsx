@@ -32,6 +32,7 @@ export default function Application() {
         y: e.mouseY, // Mouse Y position
     });
 };
+
 const Draw = (e:any) => {
   if (e.buttons !== 1) return; // The left mouse button should be pressed
   const ctx:any = canvasCTX; // Our saved context
