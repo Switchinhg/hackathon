@@ -7,6 +7,7 @@ import Header from "./components/Header";
 import Login from "./components/Login";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Index from "./components/Index";
+import Application from "./components/Application";
 
 const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL);
 
@@ -18,7 +19,7 @@ ReactDOM.render(
 
           <Routes>
             <Route path="/" element={<Index />}/>
-            <Route path="/app" element={<App />}/>
+            <Route path="/app" element={<Application />}/>
             <Route path="/login" element={<Login />}/>
           </Routes>
         </Router>
