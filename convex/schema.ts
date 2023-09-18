@@ -3,6 +3,7 @@ import { v } from "convex/values";
 
 export default defineSchema({
   coords: defineTable({
+    author:v.string(),
     width: v.number(),
     color: v.string(),
     x0: v.optional(v.number()),
