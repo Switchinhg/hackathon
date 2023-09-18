@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 export default function Colors({drawColor}:any) {
-    const [selectedColor, setSelectedColor] = useState('#FFFFFF')
+    const [selectedColor, setSelectedColor] = useState('#000000')
     const [colorInput, setColorInput] = useState('')
      const preDefinedColors = [
         {name:'white', hex:'#FFFFFF'},
@@ -34,7 +34,7 @@ export default function Colors({drawColor}:any) {
 
 
   return (
-    <div className='d-flex colorsBG' >
+    <div className='colorsBG' >
         {preDefinedColors.map(color=>
         <div key={color.name} onClick={()=>selectColor(color.hex)} className={` ${selectedColor === color.hex? 'selected ': 'bxsh'}`}>
             {color.name === 'choose'?

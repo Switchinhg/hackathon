@@ -1,16 +1,58 @@
+/* Global */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    /* background-color:#D9D9D9;  */
+}
+
+/* Herader  */
+.header-bg{
+    background-color: #C8C8C8;
+    box-shadow: 0 0 15px rgb(78, 78, 78);
+    z-index: 10;
+    position: relative;
+}
+.btnLogin{
+    background-color: #312783;
+    padding: .5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.375);
+    transition:  box-shadow .2s ease-in-out;
+}
+.btnLogin:hover{
+    box-shadow: none;
+}
+/* Colors */
 .colorsBG{
     display: flex;
+    flex-wrap: wrap;
     background-color: white;
     padding: .5rem;
     justify-content: center;
     align-items: center;
     gap: .3rem;
-    width: 273px;
+    width: 210px;
+    padding: .5rem 0;
+    border-right: 1px solid rgba(191, 191, 191, 0.823);
+    border-radius: 7px 0 0 7px;
 }
 
 .selected{
     box-shadow: 0 0 10px black;
     height: 20px;
+}
+
+/* APP */
+.colorsAndMore{
+    width: 90vw;
+    margin: 1rem 0 .5rem  0;
+    background-color: white;
+    border-radius: 7px;
 }
 
 .bxsh{
@@ -23,6 +65,17 @@
     height: 20px;
     margin: 0;
     padding: 0;
-    width: 30px;
+    width: 20px;
     border: none;
+}
+
+.app-bg{
+    background-color:#D9D9D9; 
+    z-index: 2;
+}
+.canvas-bg{
+    background-color: white;
+    border-radius: 10px;
+    cursor: url('/imgs/pencil.png'), auto;
+
 }

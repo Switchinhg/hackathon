@@ -14,6 +14,7 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as coordenates from "../coordenates";
 import type * as init from "../init";
 import type * as messages from "../messages";
 import type * as stats from "../stats";
@@ -27,6 +28,7 @@ import type * as stats from "../stats";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  coordenates: typeof coordenates;
   init: typeof init;
   messages: typeof messages;
   stats: typeof stats;
