@@ -16,16 +16,23 @@ export default function Application() {
   const [color,setColor] = useState('black')
   const [canvasCTX, setCanvasCTX] = useState (null);
   const [size, setSize] = useState(5)
-const [mouseData, setMouseData] = useState({ x: 0, y: 0 });
+  const [mouseData, setMouseData] = useState({ x: 0, y: 0 });
+  const [prevMouseData, setPrevMouseData] = useState({ x: 0, y: 0 });
+  const [tool,setTool] = useState('brush')
 
-const [user,setUser] = useState('Santiago')
-const [state,setState] = useState(true)
+  const [user,setUser] = useState('Santiago')
 
 
   const canvasRef = useRef(null);
 
   const drawColor = (colors:string) =>{
     setColor(colors)
+  }
+  const chooseTool = (tools:string) =>{
+    setTool(tools)
+  }
+  const chooseSize = (sizes:number) =>{
+    setSize(sizes)
   }
   
   useEffect(() => {
@@ -36,13 +43,6 @@ const [state,setState] = useState(true)
     setCanvasCTX(ctx);
   },[canvasRef])
   
-  // useEffect(() =>{
-  //   if(state && getCanvasDraw){
-  //     console.log('entro')
-  //     console.log(getCanvasDraw)
-  //     setState(false)
-  //   }
-  // },[getCanvasDraw])
 
   
   useEffect(()=>{
@@ -55,20 +55,22 @@ const [state,setState] = useState(true)
     // if (e.buttons != 1) return; // The left mouse button should be pressed
    const ctx:any = canvasCTX; // Our saved context
    ctx.beginPath(); // Start the line
-   setMouseData({
-     x: e.x0,
-     y: e.y0,
-   });
+      console.log(e)
+   if(e.tool == 'brush'){
+    ctx.lineWidth = e.width;
+    ctx.strokeStyle = e.color;
+  }else if(e.tool == 'eraser'){
+    ctx.lineWidth = 20;
+    ctx.strokeStyle = 'white';
+  }
    ctx.moveTo(e.x0, e.y0);
    ctx.lineTo(e.x1, e.y1);
    
-   ctx.strokeStyle = e.color; // Set the color as the saved state
-   ctx.lineWidth = e.width; // Set the size to the saved state
+  //  ctx.strokeStyle = e.color; // Set the color as the saved state
+  //  ctx.lineWidth = e.width; // Set the size to the saved state
    // Set the line cap to round
    ctx.lineCap = "round";
    ctx.stroke(); // Draw it!
-  //  coords({width:size, color:color, x0:mouseData.x, y0:mouseData.y, x1:e.nativeEvent.offsetX, y1:e.nativeEvent.offsetY})
-   // width, color,x0,y0,x1,y1
  }; 
 
 
@@ -79,69 +81,80 @@ const [state,setState] = useState(true)
         x: e.mouseX, // Mouse X position
         y: e.mouseY, // Mouse Y position
     });
+    setPrevMouseData({
+      x: e.nativeEvent.offsetX, // Mouse X position
+      y: e.nativeEvent.offsetY, // Mouse Y position
+  });
 };
 
 
-
   const Draw = async (e:any) => {
-   if (e.buttons != 1) return; // The left mouse button should be pressed
+   if (e.buttons != 1 ) return; // The left mouse button should be pressed
   const ctx:any = canvasCTX; // Our saved context
-  ctx.beginPath();
-    setMouseData({
-    x: e.nativeEvent.offsetX,
-    y: e.nativeEvent.offsetY,
-  });
-  ctx.lineWidth = e.width;
-  ctx.strokeStyle = color;
-  ctx.moveTo(mouseData.x, mouseData.y);
-  ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-  ctx.lineCap = "round";
-  ctx.stroke();
-  await coords({author:user,width:size, color:color, x0:Number(mouseData.x), y0:Number(mouseData.y), x1:e.nativeEvent.offsetX, y1:e.nativeEvent.offsetY})
+      setMouseData({
+      x: e.nativeEvent.offsetX,
+      y: e.nativeEvent.offsetY,
+    });
 
-  // width, color,x0,y0,x1,y1
+    ctx.beginPath();
+      setMouseData({
+      x: e.nativeEvent.offsetX,
+      y: e.nativeEvent.offsetY,
+    });
+    if(tool === 'brush'){
+      ctx.lineWidth = size;
+      ctx.strokeStyle = color;
+    }else if(tool === 'eraser'){
+      ctx.lineWidth = 20;
+      ctx.strokeStyle = 'white';
+    }else if (tool === 'fill'){
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.closePath()
+    }
+    ctx.moveTo(mouseData.x, mouseData.y);
+    ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+    ctx.lineCap = "round";
+    ctx.stroke();
+
+ 
+
+   coords({author:user,tool:tool,width:Number(size), color:color, x0:Number(mouseData.x), y0:Number(mouseData.y), x1:e.nativeEvent.offsetX, y1:e.nativeEvent.offsetY})
+
 }; 
-//  const Draw = async (e:any) => {
-//    if (e.buttons != 1) return; // The left mouse button should be pressed
-//   const ctx:any = canvasCTX; // Our saved context
-//   ctx.beginPath(); // Start the line
-//   setMouseData({
-//     x: e.nativeEvent.offsetX,
-//     y: e.nativeEvent.offsetY,
-//   });
-//   ctx.moveTo(mouseData.x, mouseData.y); // Move the line to the saved mouse location
-//   ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY); // Again draw a line to the mouse postion
-//   ctx.strokeStyle = color; // Set the color as the saved state
-//   ctx.lineWidth = size; // Set the size to the saved state
-//   // Set the line cap to round
-//   ctx.lineCap = "round";
-//   ctx.stroke(); // Draw it!
-//   console.log(typeof(mouseData.x))
-//   coords({width:size, color:color, x0:Number(mouseData.x), y0:Number(mouseData.y), x1:e.nativeEvent.offsetX, y1:e.nativeEvent.offsetY})
-
-//   // width, color,x0,y0,x1,y1
-// }; 
 
 const change = (text:any)=>{
   // console.log(text)
   setUser(text.target.value)
 }
 
+const saveImg = () =>{
+  const canvas:any = canvasRef.current;
+  const link = document.createElement("a");
+  link.download = `${Date.now()}.jpg`;
+  link.href = canvas.toDataURL();
+  link.click();
+}
+
+
 
   return (
     <>
-    <div className='d-flex flex-column align-items-center justify-content-center app-bg'>
-      <div className='colorsAndMore d-flex '>
-        <Colors drawColor={drawColor} />
-        <Options/>
+    <div className='d-flex  align-items-center justify-content-center app-bg '>
+      <div className='colorsAndMore d-flex py-4'>
+        <Colors drawColor={drawColor} chooseTool={chooseTool} />
+        <div className="flex-grow-1">
+          <Options chooseTool={chooseTool} chooseSize={chooseSize}/>
+        </div>
         <input type="text" onChange={change} name="" id="" value={user} />
+        <button className="btn btn-outline-" onClick={saveImg}>Save Image</button>
       </div>
       <canvas
         ref={canvasRef}
         onMouseEnter={(e) => SetPos(e)}
         onMouseMove={(e) => {SetPos(e);Draw(e)}}
-        onMouseDown={(e) => SetPos(e)}
-        id="drawing" className=' canvas-bg' style={{width:'90vw',height:'calc(100vh - 200px)'}}></canvas>
+        onMouseDown={(e) => {SetPos(e);}}
+        id="drawing" className=' canvas-bg' style={{width:'1000px',height:'561px'}}></canvas>
     </div>
     </>
   )

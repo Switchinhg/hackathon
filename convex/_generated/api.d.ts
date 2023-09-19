@@ -15,9 +15,6 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as coordenates from "../coordenates";
-import type * as init from "../init";
-import type * as messages from "../messages";
-import type * as stats from "../stats";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -29,9 +26,6 @@ import type * as stats from "../stats";
  */
 declare const fullApi: ApiFromModules<{
   coordenates: typeof coordenates;
-  init: typeof init;
-  messages: typeof messages;
-  stats: typeof stats;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

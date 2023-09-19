@@ -21,10 +21,10 @@ export const getCanvasDraw = query({
 });
 
 export const makeLine = mutation({
-  args: { author:v.string(), width: v.number(), color: v.string(), x0: v.number(), y0: v.number(), x1:v.number(), y1: v.number() },
-  handler: async (ctx, { author, width, color,x0,y0,x1,y1 }) => {
+  args: { author:v.string(),tool:v.string(), width: v.number(), color: v.string(), x0: v.number(), y0: v.number(), x1:v.number(), y1: v.number() },
+  handler: async (ctx, { author,tool, width, color,x0,y0,x1,y1 }) => {
     // Sends a new line.
-    await ctx.db.insert("coords", { author, width, color,x0,y0,x1,y1});
+    await ctx.db.insert("coords", { author,tool, width, color,x0,y0,x1,y1});
   },
 });
 

@@ -4,6 +4,7 @@ import { v } from "convex/values";
 export default defineSchema({
   coords: defineTable({
     author:v.string(),
+    tool:v.string(),
     width: v.number(),
     color: v.string(),
     x0: v.optional(v.number()),
@@ -14,14 +15,6 @@ export default defineSchema({
   canvas: defineTable({
     author: v.string(),
     status: v.boolean()
-  }),
-  messages: defineTable({
-    author: v.string(),
-    body: v.string(),
-  }),
-  stats: defineTable({
-    author: v.string(),
-    body: v.string(),
   })
 })
   

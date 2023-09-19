@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-export default function Colors({drawColor}:any) {
+export default function Colors({drawColor,chooseTool}:any) {
     const [selectedColor, setSelectedColor] = useState('#000000')
     const [colorInput, setColorInput] = useState('')
      const preDefinedColors = [
@@ -36,7 +36,7 @@ export default function Colors({drawColor}:any) {
   return (
     <div className='colorsBG' >
         {preDefinedColors.map(color=>
-        <div key={color.name} onClick={()=>selectColor(color.hex)} className={` ${selectedColor === color.hex? 'selected ': 'bxsh'}`}>
+        <div key={color.name} onClick={()=>{selectColor(color.hex),chooseTool('brush')}} className={` ${selectedColor === color.hex? 'selected ': 'bxsh'}`}>
             {color.name === 'choose'?
                 <input  onChange={e =>{ setColorInput(e.target.value), selectColor(e.target.value)}} className='input' type="color" name="" id="" value={colorInput} />
             :
