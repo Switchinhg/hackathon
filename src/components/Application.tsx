@@ -4,6 +4,8 @@ import { api } from "../../convex/_generated/api";
 import React,{useState,useRef, useEffect} from 'react'
 import Colors from './Colors'
 import Options from './Options';
+import { faker } from "@faker-js/faker";
+
 
 export default function Application() {
 
@@ -11,16 +13,22 @@ export default function Application() {
     const coords = useMutation(api.coordenates.makeLine);
     const getLine = useQuery(api.coordenates.getLine);
     // const getCanvasDraw = useQuery(api.coordenates.getCanvasDraw);
+    /* ------- */
+
+
 
 
   const [color,setColor] = useState('black')
   const [canvasCTX, setCanvasCTX] = useState (null);
-  const [size, setSize] = useState(5)
+  const [size, setSize] = useState(1)
   const [mouseData, setMouseData] = useState({ x: 0, y: 0 });
   const [prevMouseData, setPrevMouseData] = useState({ x: 0, y: 0 });
   const [tool,setTool] = useState('brush')
 
   const [user,setUser] = useState('Santiago')
+  /* Get Random name */
+  const name = faker.person.firstName();
+  
 
 
   const canvasRef = useRef(null);
@@ -43,34 +51,32 @@ export default function Application() {
     setCanvasCTX(ctx);
   },[canvasRef])
   
-
+useEffect(()=>{
+  setUser(name)
+},[])
   
   useEffect(()=>{
     Draw2(getLine)
   },[getLine])
 
   const Draw2 = async (e2:any) => {
+    if(!e2)return
     let e = e2[0]
     if(e.author === user)return 
-    // if (e.buttons != 1) return; // The left mouse button should be pressed
-   const ctx:any = canvasCTX; // Our saved context
-   ctx.beginPath(); // Start the line
-      console.log(e)
+   const ctx:any = canvasCTX; 
+   ctx.beginPath(); 
    if(e.tool == 'brush'){
     ctx.lineWidth = e.width;
     ctx.strokeStyle = e.color;
   }else if(e.tool == 'eraser'){
-    ctx.lineWidth = 20;
+    ctx.lineWidth = 25;
     ctx.strokeStyle = 'white';
   }
    ctx.moveTo(e.x0, e.y0);
    ctx.lineTo(e.x1, e.y1);
    
-  //  ctx.strokeStyle = e.color; // Set the color as the saved state
-  //  ctx.lineWidth = e.width; // Set the size to the saved state
-   // Set the line cap to round
    ctx.lineCap = "round";
-   ctx.stroke(); // Draw it!
+   ctx.stroke(); 
  }; 
 
 
@@ -78,19 +84,19 @@ export default function Application() {
   const SetPos = (e:any) => {
   if(!canvasCTX) return;
     setMouseData({
-        x: e.mouseX, // Mouse X position
-        y: e.mouseY, // Mouse Y position
+        x: e.mouseX,
+        y: e.mouseY, 
     });
     setPrevMouseData({
-      x: e.nativeEvent.offsetX, // Mouse X position
-      y: e.nativeEvent.offsetY, // Mouse Y position
+      x: e.nativeEvent.offsetX,
+      y: e.nativeEvent.offsetY,
   });
 };
 
 
   const Draw = async (e:any) => {
-   if (e.buttons != 1 ) return; // The left mouse button should be pressed
-  const ctx:any = canvasCTX; // Our saved context
+   if (e.buttons != 1 ) return;
+  const ctx:any = canvasCTX;
       setMouseData({
       x: e.nativeEvent.offsetX,
       y: e.nativeEvent.offsetY,
@@ -123,11 +129,6 @@ export default function Application() {
 
 }; 
 
-const change = (text:any)=>{
-  // console.log(text)
-  setUser(text.target.value)
-}
-
 const saveImg = () =>{
   const canvas:any = canvasRef.current;
   const link = document.createElement("a");
@@ -135,8 +136,6 @@ const saveImg = () =>{
   link.href = canvas.toDataURL();
   link.click();
 }
-
-
 
   return (
     <>
@@ -146,7 +145,6 @@ const saveImg = () =>{
         <div className="flex-grow-1">
           <Options chooseTool={chooseTool} chooseSize={chooseSize}/>
         </div>
-        <input type="text" onChange={change} name="" id="" value={user} />
         <button className="btn btn-outline-" onClick={saveImg}>Save Image</button>
       </div>
       <canvas

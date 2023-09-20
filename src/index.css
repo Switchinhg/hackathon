@@ -91,3 +91,48 @@ body{
 .selectioned{
     box-shadow: 0 0 10px black;
 }
+/* Main Index */
+.mainWrapper{
+    height: calc(100vh - 81px);
+    background-image: url("/imgs/MainBG.png");
+    animation: MainBGIMG 200s infinite linear ;
+}
+.mainImg{
+    box-shadow: 0 0 20px black;
+    border-radius: 50%;
+    height: 450px;
+}
+.btnMain{
+    background-color:white ;
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.446);
+}
+.btnMain:hover{
+    background-color: gray;
+}
+.longText{
+    word-wrap: break-word; 
+    max-width: 72ch;
+}
+@keyframes MainBGIMG {
+    0%{
+        background-position-x: 0px;
+        background-position-y: 0px;
+    }
+    25%{
+        background-position-x: 0px;
+        background-position-y: 100%;
+    }
+    50%{
+        background-position-x: 100%;
+        background-position-y: 100%;
+    }
+    75%{
+        background-position-x: 100%;
+        background-position-y: 0px;
+    }
+    100%{
+        background-position-x: 0px;
+        background-position-y: 0px;
+    }
+}

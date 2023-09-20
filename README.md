@@ -1,7 +1,7 @@
 # this is a Paint-like real time collaboration app called FreePaint
 
-### code by me
-### art by cynthia
+### Code by me
+### Art by Cynthia
 
 # To run
 
